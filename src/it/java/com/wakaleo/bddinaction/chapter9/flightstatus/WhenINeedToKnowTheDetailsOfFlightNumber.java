@@ -36,7 +36,6 @@ public class WhenINeedToKnowTheDetailsOfFlightNumber {
                 .addPackages(false, "com.wakaleo.bddinaction.chapter9.flightstatus.model",
                         "com.wakaleo.bddinaction.chapter9.flightstatus.resources",
                         "com.wakaleo.bddinaction.chapter9.flightstatus.service")
-                //.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .setWebXML(new File(WEBAPP_SRC, "WEB-INF/web.xml"))
                 .addAsWebResource(new File(WEBAPP_SRC, "index.html"))
                 .addAsLibraries(Maven.resolver().loadPomFromFile("pom.xml").importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile())
