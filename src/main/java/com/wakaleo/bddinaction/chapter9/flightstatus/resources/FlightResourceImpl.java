@@ -2,9 +2,6 @@ package com.wakaleo.bddinaction.chapter9.flightstatus.resources;
 
 import java.util.List;
 
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-
 import com.google.common.base.Optional;
 import com.wakaleo.bddinaction.chapter9.flightstatus.model.Flight;
 import com.wakaleo.bddinaction.chapter9.flightstatus.model.FlightType;
@@ -23,7 +20,7 @@ public class FlightResourceImpl implements FlightResource {
         return "{'status':'OK'}";
     }
 
-    public Flight findByFlightNumber(@PathParam("flightNumber") String flightNumber) {
+    public Flight findByFlightNumber(String flightNumber) {
         Optional<Flight> flight = flightService.findByFlightNumber(flightNumber);
         if (!flight.isPresent()) {
             throw new UnknownFlightException("No flight with number " + flightNumber + " found");
@@ -31,8 +28,8 @@ public class FlightResourceImpl implements FlightResource {
         return flight.get();
     }
 
-    public List<Flight> findFlights(@PathParam("departure") String departure,
-                                    @QueryParam("flightType") FlightType flightType) {
+    public List<Flight> findFlights(String departure,
+                                     FlightType flightType) {
         return  flightService.findFlightsFrom(departure, flightType);
     }
 }

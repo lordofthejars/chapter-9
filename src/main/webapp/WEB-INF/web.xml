@@ -7,12 +7,6 @@
 
     <servlet>
         <servlet-name>com.wakaleo.bddinaction.chapter9.flightstatus.rs.JaxRsActivator</servlet-name>
-<!--         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class> -->
-<!--         <init-param> -->
-<!--             <param-name>jersey.config.server.provider.classnames</param-name> -->
-<!--             <param-value>com.wakaleo.bddinaction.chapter9.flightstatus.resources.FlightResourceImpl</param-value> -->
-<!--         </init-param> -->
-<!--         <load-on-startup>1</load-on-startup> -->
     </servlet>
 
     <servlet-mapping>

@@ -8,8 +8,11 @@ import ch.lambdaj.Lambda;
 import com.wakaleo.bddinaction.chapter9.flightstatus.client.FlightStatusClient;
 import com.wakaleo.bddinaction.chapter9.flightstatus.model.Flight;
 import com.wakaleo.bddinaction.chapter9.flightstatus.model.FlightType;
+import com.wakaleo.bddinaction.chapter9.flightstatus.resources.FlightResource;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.extension.rest.client.ArquillianResteasyResource;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -38,10 +41,9 @@ public class WhenIWantToKnowFlightsByDeparture {
                 .create(WebArchive.class, "flightstatus.war")
                 .addPackages(false, "com.wakaleo.bddinaction.chapter9.flightstatus.model",
                         "com.wakaleo.bddinaction.chapter9.flightstatus.resources",
+                        "com.wakaleo.bddinaction.chapter9.flightstatus.rs",
                         "com.wakaleo.bddinaction.chapter9.flightstatus.service")
-                        //.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .setWebXML(new File(WEBAPP_SRC, "WEB-INF/web.xml"))
-                .addAsWebResource(new File(WEBAPP_SRC, "index.html"))
                 .addAsLibraries(Maven.resolver().loadPomFromFile("pom.xml").importCompileAndRuntimeDependencies().resolve().withTransitivity().asFile())
                 ;
 
@@ -51,12 +53,9 @@ public class WhenIWantToKnowFlightsByDeparture {
     URL contextPath;
 
     @Test
-    public void flights_should_be_returned() {
+    public void flights_should_be_returned(@ArquillianResteasyResource FlightResource flightResource) {
 
-        FlightStatusClient flightStatusClient = new FlightStatusClient();
-        flightStatusClient.setBaseUrl(contextPath.toString()+ REST_FLIGHTS_URL);
-
-        List<Flight> flights = flightStatusClient.findByDepartureCityAndType("SYD", FlightType.Domestic);
+        List<Flight> flights = flightResource.findFlights("SYD", FlightType.Domestic);
 
         assertThat(flights, containsInAnyOrder(
                 number("FH-102").from("SYD").to("MEL").at("06:15"),
